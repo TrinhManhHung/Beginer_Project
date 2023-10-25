@@ -1,31 +1,34 @@
-#include<bits/stdc++.h>
+#include <iostream>
 using namespace std;
-int main(){
-		int t; cin >> t;
-		while(t--){
-		int n; cin >> n;
-		int a[50000];
-		memset(a,0,sizeof(a));
-		int q,r = 0;
-		a[0]=1;
-		int m = 1;
-		for(int i=2;i<=n;i++){
-			for(int j=0;j<m;j++){
-				q = r;
-				r = (a[j]*i + r)/10;
-				a[j] = (a[j]*i+q)%10;
-			}
-			while(r>0){
-	          a[m]=r%10;
-	          m++;
-	          r=r/10;
-			}
-		}
-		for(int i=m-1;i>=0;i--){
-			cout << a[i];
-		}
-		cout << endl;
-	}
-	return 0;
+
+int n;
+int a[100] = {0};
+bool unused[100] = {true};
+
+void display() {
+    for (int i = 1; i <= n; i++) {
+        cout << a[i];
+    }
+    cout << endl;
 }
 
+void Back_Track(int i) {
+    for (int j = 1; j <= n; j++) {
+        if (unused[j] == true) {
+            a[i] = j;
+            unused[j] = false;
+            if (i == n) {
+                display();
+            } else {
+                Back_Track(i + 1);
+            }
+            unused[j] = true; // Ðánh d?u ph?n t? j là chua s? d?ng sau khi quay lui
+        }
+    }
+}
+
+int main() {
+    cin >> n;
+    Back_Track(1);
+    return 0;
+}
